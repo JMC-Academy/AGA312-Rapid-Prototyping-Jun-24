@@ -18,8 +18,16 @@ public class Playground : GameBehaviour
     private int score = 0;
     public int scoreBonus = 100;
 
+    [Header("Timer")]
+    public Timer timer;
+    public TMP_Text timerText;
+
     void Start()
     {
+        //timer.StartTimer(60, TimerDirection.CountDown);
+
+        timer.StartTimer(0, 10, true, TimerDirection.CountUp);
+
         ExecuteAfterSeconds(2, () =>
         {
             player.transform.localScale = Vector3.one * 2;
@@ -34,6 +42,22 @@ public class Playground : GameBehaviour
 
     void Update()
     {
+        timerText.text = timer.GetTime().ToString("F2");
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            if (timer.timerDirection == TimerDirection.CountUp)
+                timer.ChangeTimerDirection(TimerDirection.CountDown);
+            else
+                timer.ChangeTimerDirection(TimerDirection.CountUp);
+        }
+
+        if(Input.GetKeyDown(KeyCode.P))
+            timer.ToggleTimerPause();
+
+        if (timer.TimeExpired())
+            Debug.Log("Time Expired");
+
+
         if (Input.GetKeyDown(KeyCode.W))
             MovePlayer(Direction.North);
         if (Input.GetKeyDown(KeyCode.D))
