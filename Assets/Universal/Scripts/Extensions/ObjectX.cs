@@ -158,4 +158,21 @@ public static class ObjectX
             parent.GetChild(i).SetLayerRecursively(layer);
         }
     }
+
+    /// <summary>
+    /// Checks whether a tag exists or not
+    /// </summary>
+    /// <param name="aTag">The tag we want to check</param>
+    public static bool DoesTagExist(string aTag)
+    {
+        try
+        {
+            GameObject.FindGameObjectsWithTag(aTag);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

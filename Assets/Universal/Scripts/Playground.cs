@@ -119,4 +119,13 @@ public class Playground : GameBehaviour
         TweenX.TweenNumbers(scoreText, score, score + scoreBonus, 1, scoreEase, "F1");
         score = score + scoreBonus;
     }
+
+    public int health = 100000;
+    public void Poison()
+    {
+        health -= 1;
+        Debug.Log("Poisoned " + health);
+    }
+    public void AddHealth(int _health) => health += _health;
+    public void LoseHealth(int _health) => health -= _health;
 }
