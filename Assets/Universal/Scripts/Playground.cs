@@ -14,6 +14,7 @@ public class Playground : GameBehaviour
     public float shakeStrength = 0.4f;
     [Header("UI")]
     public TMP_Text scoreText;
+    public TMP_Text highScoreText;
     public Ease scoreEase;
     private int score = 0;
     public int scoreBonus = 100;
@@ -25,6 +26,10 @@ public class Playground : GameBehaviour
     void Start()
     {
         //timer.StartTimer(60, TimerDirection.CountDown);
+        player.transform.position = _SAVE.GetLastCheckpoint();
+        player.GetComponent<Renderer>().material.color = _SAVE.GetColour();
+        highScoreText.text = "HIGHEST SCORE: " + _SAVE.GetHighestScore().ToString();
+
 
         timer.StartTimer(0, 10, true, TimerDirection.CountUp);
 
@@ -101,6 +106,7 @@ public class Playground : GameBehaviour
                 });
                 break;
         }
+        _SAVE.SetLastPosition(player.transform.position);
         ChangeColour();
     }
 
@@ -111,13 +117,16 @@ public class Playground : GameBehaviour
 
     void ChangeColour()
     {
-        player.GetComponent<Renderer>().material.DOColor(ColorX.GetRandomColour(), moveTweenTime);
+        Color c = ColorX.GetRandomColour();
+        _SAVE.SetColour(c);
+        player.GetComponent<Renderer>().material.DOColor(c, moveTweenTime);
     }
 
     void IncreaseScore()
     {
         TweenX.TweenNumbers(scoreText, score, score + scoreBonus, 1, scoreEase, "F1");
         score = score + scoreBonus;
+        _SAVE.SetScore(score);
     }
 
     public int health = 100000;
