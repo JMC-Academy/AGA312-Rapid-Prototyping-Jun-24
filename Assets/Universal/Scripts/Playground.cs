@@ -18,6 +18,7 @@ public class Playground : GameBehaviour
     public Ease scoreEase;
     private int score = 0;
     public int scoreBonus = 100;
+    private float bloom = 0;
 
     [Header("Timer")]
     public Timer timer;
@@ -108,11 +109,15 @@ public class Playground : GameBehaviour
         }
         _SAVE.SetLastPosition(player.transform.position);
         ChangeColour();
+        _EFFECTS.TweenChromaticInOut(1, 0.5f);
+        bloom += 0.5f;
+        _EFFECTS.SetBloom(bloom);
     }
 
     void ShakeCamera()
     {
         Camera.main.DOShakePosition(moveTweenTime / 2, shakeStrength);
+        _EFFECTS.TweenVignetteInOut(0.5f, 0.5f);
     }
 
     void ChangeColour()
